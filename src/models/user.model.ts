@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: "Admin" | "Manager" | "Employee";
+  profileImage?: string;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +22,7 @@ const userSchema = new Schema<IUser>(
       required: true,
       default: "Employee",
     },
+    profileImage: { type: String },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true },
