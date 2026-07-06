@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../../lib/catchAsync";
 import sendResponse from "../../lib/sendResponse";
-import { StatusCodes } from "http-status-codes";
 import { registerUser, loginUser } from "./auth.service";
 import {
   registerSchema,
@@ -9,7 +8,6 @@ import {
   LoginInput,
   RegisterInput,
 } from "../../validations/user.validation";
-import { upload } from "../../utils/upload.util";
 
 const register = catchAsync(async (req: Request, res: Response) => {
   console.log(req.file);

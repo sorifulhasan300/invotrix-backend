@@ -35,3 +35,8 @@ export const uploadToCloudinary = async (file: Express.Multer.File): Promise<str
 
   return result.secure_url;
 };
+
+export const uploadMultipleToCloudinary = async (files: Express.Multer.File[]): Promise<string[]> => {
+  const uploadPromises = files.map((file) => uploadToCloudinary(file));
+  return Promise.all(uploadPromises);
+};
