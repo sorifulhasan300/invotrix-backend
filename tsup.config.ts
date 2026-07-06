@@ -2,7 +2,7 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src/server.ts"],
-  format: ["esm"],
+  format: ["cjs"],
   target: "node20",
   outDir: "dist",
   sourcemap: true,
