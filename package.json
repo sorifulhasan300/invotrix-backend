@@ -2,11 +2,11 @@
   "name": "invotrix-backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js"
-  },
+"scripts": {
+  "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+  "build": "tsup",
+  "start": "node dist/server.mjs"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -29,7 +29,9 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.2.0",
     "@types/node": "^26.1.0",
+    "@types/tcp-port-used": "^1.0.4",
     "ts-node-dev": "^2.0.0",
+    "tsup": "^8.5.1",
     "typescript": "^6.0.3"
   },
   "description": ""
