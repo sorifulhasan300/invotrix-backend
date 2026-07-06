@@ -8,6 +8,14 @@ import type {
 } from "../../types/product/product.interface.js";
 import { Product } from "../../models/product.model";
 
+export interface ProductDropdownItem {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  sku: string;
+  sellingPrice: number;
+  stockQuantity: number;
+}
+
 const buildProductQuery = (query: Record<string, unknown>) => {
   const filter: Record<string, unknown> = { isDeleted: false };
 
@@ -58,6 +66,21 @@ export const getAllProductsFromDB = async (query: Record<string, unknown>) => {
     meta: { total, page, limit, pages },
     data: products,
   };
+};
+
+export const getProductDropdownFromDB = async (): Promise<ProductDropdownItem[]> => {
+  const products = await Product.find({
+    stockQuantity: { $gt: 0 },
+    isDeleted: false,
+  }).select("_id name sellingPrice stockQuantity sku");
+
+  return products.map((product) => ({
+    _id: product._id,
+    name: product.name,
+    sku: product.sku,
+    sellingPrice: product.sellingPrice,
+    stockQuantity: product.stockQuantity,
+  }));
 };
 
 export const getSingleProductFromDB = async (id: string) => {

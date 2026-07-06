@@ -8,12 +8,12 @@ import {
   LoginInput,
   RegisterInput,
 } from "../../validations/user.validation";
+import { Role } from "../../types/user.types";
 
 const register = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.file);
   const validated: RegisterInput = registerSchema.parse({
     ...req.body,
-    profileImage: req.file,
+    profileImage: (req as any).file,
   });
 
   const result = await registerUser(validated);

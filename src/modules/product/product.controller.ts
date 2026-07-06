@@ -12,6 +12,7 @@ import {
   deleteProductFromDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
+  getProductDropdownFromDB,
   updateProductInDB,
 } from "./product.service";
 import {
@@ -72,6 +73,26 @@ export const getAllProducts = async (
       "Products retrieved successfully",
       data,
       meta,
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProductDropdown = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result = await getProductDropdownFromDB();
+
+    sendResponse(
+      res,
+      StatusCodes.OK,
+      true,
+      "Dropdown products fetched successfully",
+      result,
     );
   } catch (error) {
     next(error);
@@ -149,6 +170,7 @@ export const deleteProduct = async (
 export const productController = {
   createProduct,
   getAllProducts,
+  getProductDropdown,
   getSingleProduct,
   updateProduct,
   deleteProduct,

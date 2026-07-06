@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Role } from "../types/user.types";
 
 export const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -9,9 +10,9 @@ export const registerSchema = z.object({
     .optional()
     .refine((file) => !file || file.size <= 5 * 1024 * 1024, "Profile image must be under 5MB"),
   role: z
-    .enum(["Admin", "Manager", "Employee"])
+    .enum([Role.Admin, Role.Manager, Role.Employee])
     .optional()
-    .default("Employee"),
+    .default(Role.Employee),
 });
 
 export const loginSchema = z.object({

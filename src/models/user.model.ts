@@ -1,10 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { Role } from "../../types/user.types";
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  role: "Admin" | "Manager" | "Employee";
+  role: Role;
   profileImage?: string;
   isDeleted: boolean;
   createdAt: Date;
@@ -18,9 +19,9 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: true, select: false },
     role: {
       type: String,
-      enum: ["Admin", "Manager", "Employee"],
+      enum: [Role.Admin, Role.Manager, Role.Employee],
       required: true,
-      default: "Employee",
+      default: Role.Employee,
     },
     profileImage: { type: String },
     isDeleted: { type: Boolean, default: false },

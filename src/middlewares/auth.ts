@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { envVars } from "../config/env.config";
+import { Role } from "../types/user.types";
 
 interface JwtPayload {
   id: string;
-  role: "Admin" | "Manager" | "Employee";
+  role: Role;
 }
 
-export const auth = (...requiredRoles: string[]) => {
+export const auth = (...requiredRoles: Role[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization?.split(" ")[1];
