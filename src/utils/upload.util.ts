@@ -23,7 +23,7 @@ export const upload: Multer = multer({
 });
 
 export const uploadToCloudinary = async (file: Express.Multer.File): Promise<string> => {
-  const buffer = file.buffer instanceof Buffer ? file.buffer : Buffer.from(file.buffer as ArrayBuffer);
+  const buffer = Buffer.from(file.buffer as unknown as ArrayBuffer);
   const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
     cloudinary.uploader
       .upload_stream({ folder: "mini-erp", resource_type: "image" }, (err, res) => {

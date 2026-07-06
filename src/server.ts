@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import app from "./app";
+import { envVars } from "./config/env.config";
 
 dotenv.config();
 
-const port = process.env.PORT || 5000;
+const port = Number(envVars.PORT);
 
 async function bootstrap() {
   try {
-    await mongoose.connect(process.env.MONGO_URI as string);
+    await mongoose.connect(envVars.MONGO_URI);
     console.log("Database connected successfully");
 
     app.listen(port, () => {

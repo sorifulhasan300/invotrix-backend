@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { envVars } from "../config/env.config";
 
 interface JwtPayload {
   id: string;
@@ -19,7 +20,7 @@ export const auth = (...requiredRoles: string[]) => {
 
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET as string,
+        envVars.JWT_SECRET,
       ) as JwtPayload;
 
       if (requiredRoles.length && !requiredRoles.includes(decoded.role)) {

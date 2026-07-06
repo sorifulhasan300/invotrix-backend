@@ -1,5 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
+import { envVars } from "../config/env.config";
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
@@ -9,7 +10,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     success: false,
     message,
     errorDetails: err,
-    stack: process.env.NODE_ENV !== "production" ? err.stack : undefined,
+    stack: envVars.NODE_ENV !== "production" ? err.stack : undefined,
   });
 };
 
