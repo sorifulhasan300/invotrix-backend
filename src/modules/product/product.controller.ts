@@ -8,16 +8,16 @@ import {
   uploadMultipleToCloudinary,
 } from "../../utils/upload.util";
 import {
-  CreateProductInput,
-  UpdateProductInput,
-} from "../../types/product/product.interface";
-import {
   createProductIntoDB,
   deleteProductFromDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
   updateProductInDB,
 } from "./product.service";
+import {
+  CreateProductInput,
+  UpdateProductInput,
+} from "../../types/product/product.interface";
 
 export const createProduct = async (
   req: Request,
@@ -35,12 +35,7 @@ export const createProduct = async (
     const imageUrls = await uploadMultipleToCloudinary(req.files);
 
     const payload: CreateProductInput = {
-      name: req.body.name,
-      sku: req.body.sku,
-      category: req.body.category,
-      purchasePrice: Number(req.body.purchasePrice),
-      sellingPrice: Number(req.body.sellingPrice),
-      stockQuantity: Number(req.body.stockQuantity) || 0,
+      ...req.body,
       productImages: imageUrls,
     };
 
@@ -110,17 +105,7 @@ export const updateProduct = async (
 ) => {
   try {
     const { id } = req.params;
-    const updatePayload: UpdateProductInput = {};
-
-    if (req.body.name) updatePayload.name = req.body.name;
-    if (req.body.sku) updatePayload.sku = req.body.sku;
-    if (req.body.category) updatePayload.category = req.body.category;
-    if (req.body.purchasePrice)
-      updatePayload.purchasePrice = Number(req.body.purchasePrice);
-    if (req.body.sellingPrice)
-      updatePayload.sellingPrice = Number(req.body.sellingPrice);
-    if (req.body.stockQuantity)
-      updatePayload.stockQuantity = Number(req.body.stockQuantity);
+    const updatePayload: UpdateProductInput = { ...req.body };
 
     if (req.files && Array.isArray(req.files) && req.files.length > 0) {
       const imageUrls = await uploadMultipleToCloudinary(req.files);

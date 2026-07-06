@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import AppError from "../../utils/AppError";
 import sendResponse from "../../lib/sendResponse";
 import { createSaleInDB } from "./sales.service";
-import type { CreateSaleInput } from "../../types/sels/sales.interface.js";
+import { CreateSaleInput } from "../../types/sels/sales.interface";
 
 export const createSale = async (
   req: Request,
