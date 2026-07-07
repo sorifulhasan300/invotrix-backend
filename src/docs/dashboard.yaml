@@ -1,0 +1,93 @@
+paths:
+  /api/v1/dashboard/stats:
+    get:
+      summary: Retrieve dashboard statistics
+      description: Fetches key metrics for the dashboard, including total products, total customers, sales overview, and products with low stock levels. Access is restricted to Admin, Manager, and Employee roles.
+      tags:
+        - Dashboard
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Dashboard statistics fetched successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Dashboard stats fetched successfully
+                  data:
+                    type: object
+                    properties:
+                      totalProducts:
+                        type: integer
+                        example: 125
+                      totalCustomers:
+                        type: integer
+                        example: 48
+                      totalSales:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                            example: 320
+                          totalRevenue:
+                            type: number
+                            example: 15420.50
+                      lowStockProducts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                              example: 64b8c95e2b0e9f1a23456780
+                            name:
+                              type: string
+                              example: Wireless Mouse
+                            sku:
+                              type: string
+                              example: MS-WRL-01
+                            stockQuantity:
+                              type: integer
+                              example: 3
+        401:
+          description: Unauthorized - Token is missing, expired, or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missingToken:
+                  summary: Missing token
+                  value:
+                    success: false
+                    message: You are not authorized!
+                invalidToken:
+                  summary: Invalid token
+                  value:
+                    success: false
+                    message: Invalid or Expired Token
+        403:
+          description: Forbidden - User does not have permission (wrong role)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: You have no permission to access this route
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: Something went wrong!

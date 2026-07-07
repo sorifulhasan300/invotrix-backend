@@ -1,0 +1,66 @@
+paths:
+  /api/v1/sales:
+    post:
+      summary: Create a new sale transaction
+      description: Records a sale of products, updates product stock quantities accordingly, and returns the transaction details. Access is restricted to Admin, Manager, and Employee roles.
+      tags:
+        - Sales
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - items
+                - totalAmount
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - product
+                      - quantity
+                      - sellingPrice
+                    properties:
+                      product:
+                        type: string
+                        example: 64b8c95e2b0e9f1a23456780
+                        description: Product ID
+                      quantity:
+                        type: integer
+                        example: 2
+                      sellingPrice:
+                        type: number
+                        example: 15.00
+                totalAmount:
+                  type: number
+                  example: 30.00
+                  description: Total sale value
+      responses:
+        201:
+          description: Sale transaction completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Sale created successfully
+                  data:
+                    $ref: '#/components/schemas/Sale'
+        400:
+          description: Invalid input or insufficient stock quantity for a product
+        401:
+          description: Unauthorized
+        404:
+          description: One or more products not found
+        500:
+          description: Internal Server Error
