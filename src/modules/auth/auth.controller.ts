@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../../lib/catchAsync";
 import sendResponse from "../../lib/sendResponse";
-import { registerUser, loginUser } from "./auth.service";
+import { getUserById, registerUser, loginUser } from "./auth.service";
 import {
   registerSchema,
   loginSchema,
@@ -38,7 +38,20 @@ const login = catchAsync(async (req: Request, res: Response) => {
   );
 });
 
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const user = (req as any).user as { id: string };
+  const result = await getUserById(user.id);
+  sendResponse(
+    res,
+    result.statusCode,
+    result.success,
+    result.message,
+    result.data,
+  );
+});
+
 export const userController = {
   register,
   login,
+  getMe,
 };

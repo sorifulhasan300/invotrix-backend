@@ -8,7 +8,7 @@ export const saleItemSchema = z.object({
 
 export const createSaleSchema = z.object({
   items: z.array(saleItemSchema).min(1, "Sale must have at least one product"),
-  grandTotal: z.coerce.number().min(0, "Grand total must be positive"),
+  totalAmount: z.coerce.number().min(0, "Grand total must be positive"),
   soldAt: z.coerce.date().optional(),
   isDeleted: z.boolean().optional().default(false),
 });
@@ -18,7 +18,7 @@ export const updateSaleSchema = z.object({
     .array(saleItemSchema)
     .min(1, "Sale must have at least one product")
     .optional(),
-  grandTotal: z.coerce
+  totalAmount: z.coerce
     .number()
     .min(0, "Grand total must be positive")
     .optional(),

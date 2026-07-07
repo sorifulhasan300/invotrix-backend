@@ -28,21 +28,21 @@ productRouter.get(
 productRouter.post(
   "/",
   auth(Role.Admin, Role.Manager),
-  validate(createProductSchema, "body"),
   upload.array("productImages", 5),
+  validate(createProductSchema, "body"),
   createProduct,
+);
+productRouter.patch(
+  "/:id",
+  auth(Role.Admin, Role.Manager),
+  upload.array("productImages", 5),
+  validate(updateProductSchema, "body"),
+  updateProduct,
 );
 productRouter.get(
   "/:id",
   auth(Role.Admin, Role.Manager, Role.Employee),
   getSingleProduct,
-);
-productRouter.patch(
-  "/:id",
-  auth(Role.Admin, Role.Manager),
-  validate(updateProductSchema, "body"),
-  upload.array("productImages", 5),
-  updateProduct,
 );
 productRouter.delete("/:id", auth(Role.Admin), deleteProduct);
 

@@ -6,6 +6,22 @@ import { RegisterInput, LoginInput } from "../../validations/user.validation";
 import { uploadToCloudinary } from "../../utils/upload.util";
 import { envVars } from "../../config/env.config";
 
+export const getUserById = async (id: string) => {
+  const user = await User.findById(id).select("-password");
+  if (!user) {
+    const error = new Error("User not found") as any;
+    error.statusCode = 404;
+    throw error;
+  }
+  const userObject = user.toObject();
+  return {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "User fetched successfully",
+    data: userObject,
+  };
+};
+
 export const registerUser = async (data: RegisterInput) => {
   const { name, email, password, role, profileImage } = data;
   console.log(profileImage);
